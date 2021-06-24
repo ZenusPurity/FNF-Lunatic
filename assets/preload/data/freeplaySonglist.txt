@@ -1,0 +1,11 @@
+Flow:dad:1
+Stricter:dad:1
+Tryin:dad:1
+Scary Season:spooky:2
+Hard Time Spooks:spooky:2
+Electro:pico:3
+Weaponeer:pico:3
+Gun Fight:pico:3
+Drive:mom:4
+Fly:mom:4
+Die:mom:4
