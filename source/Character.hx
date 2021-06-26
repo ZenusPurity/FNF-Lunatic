@@ -60,7 +60,7 @@ class Character extends FlxSprite
 
 				addOffset('scared', -2, -17);
 
-				playAnim('danceLeft');
+				playAnim('danceRight');
 
 			case 'gf-christmas':
 				tex = Paths.getSparrowAtlas('characters/gfChristmas');
@@ -91,7 +91,7 @@ class Character extends FlxSprite
 
 				addOffset('scared', -2, -17);
 
-				playAnim('danceLeft');
+				playAnim('danceRight');
 
 			case 'gf-car':
 				tex = Paths.getSparrowAtlas('characters/gfCar');
@@ -104,7 +104,7 @@ class Character extends FlxSprite
 				addOffset('danceLeft', 0);
 				addOffset('danceRight', 0);
 
-				playAnim('danceLeft');
+				playAnim('danceRight');
 
 			case 'gf-pixel':
 				tex = Paths.getSparrowAtlas('characters/gfPixel');
@@ -116,7 +116,7 @@ class Character extends FlxSprite
 				addOffset('danceLeft', 0);
 				addOffset('danceRight', 0);
 
-				playAnim('danceLeft');
+				playAnim('danceRight');
 
 				setGraphicSize(Std.int(width * PlayState.daPixelZoom));
 				updateHitbox();
@@ -134,8 +134,8 @@ class Character extends FlxSprite
 
 				addOffset('idle');
 				addOffset("singUP", -6, 50);
-				addOffset("singRIGHT", -10, 10);
-				addOffset("singLEFT", 0, 27);
+				addOffset("singRIGHT", 0, 27);
+				addOffset("singLEFT", -10, 10);
 				addOffset("singDOWN", 0, -30);
 
 				playAnim('idle');
@@ -197,7 +197,6 @@ class Character extends FlxSprite
 				addOffset("singLEFT", 128, -14);
 				addOffset("singDOWN", -22, -143);
 
-				playAnim('danceLeft');
 				playAnim('danceRight');
 
 			case 'mom':
@@ -290,7 +289,6 @@ class Character extends FlxSprite
 				addOffset("singLEFT", -30);
 				addOffset("singDOWN", -40, -94);
 				playAnim('idle');
-
 			case 'pico':
 				tex = Paths.getSparrowAtlas('characters/Pico_FNF_assetss');
 				frames = tex;
@@ -352,6 +350,7 @@ class Character extends FlxSprite
 			case 'bf':
 				var tex = Paths.getSparrowAtlas('characters/BOYFRIEND');
 				frames = tex;
+				trace(tex.frames.length);
 				animation.addByPrefix('idle', 'BF idle dance', 24, false);
 				animation.addByPrefix('singUP', 'BF NOTE UP0', 24, false);
 				animation.addByPrefix('singLEFT', 'BF NOTE LEFT0', 24, false);
@@ -620,6 +619,7 @@ class Character extends FlxSprite
 				dadVar = 6.1;
 			if (holdTimer >= Conductor.stepCrochet * dadVar * 0.001)
 			{
+				trace('dance');
 				dance();
 				holdTimer = 0;
 			}
@@ -693,16 +693,16 @@ class Character extends FlxSprite
 					danced = !danced;
 
 					if (danced)
-						playAnim('danceLeft');
-					else
 						playAnim('danceRight');
+					else
+						playAnim('danceLeft');
 				case 'spooky-angry':
 					danced = !danced;
 
 					if (danced)
-						playAnim('danceLeft')
+						playAnim('danceRight')
 					else 
-						playAnim('danceRight');
+						playAnim('danceLeft');
 				default:
 					playAnim('idle');
 			}

@@ -1,5 +1,8 @@
 package;
 
+#if sys
+import smTools.SMFile;
+#end
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -308,7 +311,7 @@ class TitleState extends MusicBeatState
 			FlxG.fullscreen = !FlxG.fullscreen;
 		}
 
-		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER;
+		var pressedEnter:Bool = controls.ACCEPT;
 
 		#if mobile
 		for (touch in FlxG.touches.list)
@@ -319,19 +322,6 @@ class TitleState extends MusicBeatState
 			}
 		}
 		#end
-
-		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
-
-		if (gamepad != null)
-		{
-			if (gamepad.justPressed.START)
-				pressedEnter = true;
-
-			#if switch
-			if (gamepad.justPressed.B)
-				pressedEnter = true;
-			#end
-		}
 
 		if (pressedEnter && !transitioning && skippedIntro)
 		{
@@ -349,15 +339,17 @@ class TitleState extends MusicBeatState
 			FlxG.camera.flash(FlxColor.WHITE, 1);
 			FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 
+			transitioning = true;
 			
 			// FlxG.sound.music.stop();
+
+			MainMenuState.firstStart = true;
 
 			new FlxTimer().start(2, function(tmr:FlxTimer)
 			{
 				// Get current version of Kade Engine
 
-				//var http = new haxe.Http("https://raw.githubusercontent.com/KadeDev/Kade-Engine/master/version.downloadMe");
-				var http = new haxe.Http("https://raw.githubusercontent.com/KadeDev/Kade-Engine/patchnotes/version.downloadMe");
+				var http = new haxe.Http("https://raw.githubusercontent.com/KadeDev/Kade-Engine/master/version.downloadMe");
 				var returnedData:Array<String> = [];
 				
 				http.onData = function (data:String)
@@ -373,18 +365,7 @@ class TitleState extends MusicBeatState
 					}
 					else
 					{
-						FlxTween.tween(logoBl, {x:275, y: -500}, 1, {type: FlxTweenType.PERSIST, ease: FlxEase.backIn});
-						FlxTween.tween(titleText, {x:100, y: -300, alpha: 0}, 1, 
-							{
-								type: FlxTweenType.PERSIST,
-								ease: FlxEase.backIn,
-								onComplete: function(twn:FlxTween)
-								(
-									FlxG.switchState(new MainMenuState())
-								)
-							});
-						
-						
+						FlxG.switchState(new MainMenuState());
 					}
 				}
 				

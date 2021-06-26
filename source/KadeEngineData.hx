@@ -1,3 +1,4 @@
+import flixel.input.gamepad.FlxGamepad;
 import openfl.Lib;
 import flixel.FlxG;
 
@@ -72,7 +73,34 @@ class KadeEngineData
 		if (FlxG.save.data.botplay == null)
 			FlxG.save.data.botplay = false;
 
+		if (FlxG.save.data.cpuStrums == null)
+			FlxG.save.data.cpuStrums = false;
+
+		if (FlxG.save.data.strumline == null)
+			FlxG.save.data.strumline = false;
+		
+		if (FlxG.save.data.customStrumLine == null)
+			FlxG.save.data.customStrumLine = 0;
+
+		if (FlxG.save.data.camzoom == null)
+			FlxG.save.data.camzoom = true;
+
+		if (FlxG.save.data.scoreScreen == null)
+			FlxG.save.data.scoreScreen = true;
+
+		if (FlxG.save.data.inputShow == null)
+			FlxG.save.data.inputShow = false;
+
+		if (FlxG.save.data.optimize == null)
+			FlxG.save.data.optimize = false;
+		
+		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
+		
+		KeyBinds.gamepad = gamepad != null;
+
 		Conductor.recalculateTimings();
+		PlayerSettings.player1.controls.loadKeyBinds();
+		KeyBinds.keyCheck();
 
 		Main.watermarks = FlxG.save.data.watermark;
 
