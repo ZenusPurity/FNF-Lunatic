@@ -1,6 +1,7 @@
 local swaySlow = false 
 local swayFast = false 
 local swayIntense = false 
+local swayIntense2 = false
 local swayLunatic = false 
 
 function start (song)
@@ -105,17 +106,23 @@ local currentBeat2 = (songPos / 1000)*(bpm/120)
     if swayIntense then
         for i=0,7 do
             setActorX(_G['defaultStrum'..i..'X'] + 64 * math.sin((currentBeat + i*0) * math.pi), i)
-            setActorY(_G['defaultStrum'..i..'Y'] + 16 * math.cos((currentBeat + i*5) * math.pi) ,i)
+            setActorY(_G['defaultStrum'..i..'Y'] + 16 * math.cos((currentBeat + i*4) * math.pi) ,i)
+        end
+    end
+    if swayIntense2 then 
+        for i=0,7 do
+            setActorX(_G['defaultStrum'..i..'X'] + 80 * math.sin((currentBeat + i*0) * math.pi), i)
+            setActorY(_G['defaultStrum'..i..'Y'] + 32 * math.cos((currentBeat + i*4) * math.pi) ,i)
         end
     end
     if swayLunatic then 
         for i=0,3 do
-            setActorX(_G['defaultStrum'..i..'X'] + 300 * math.sin((currentBeat + i*0)) + 350, i)
-            setActorY(_G['defaultStrum'..i..'Y'] + 8 * math.cos((currentBeat + i*5) * math.pi),i)
+            setActorX(_G['defaultStrum'..i..'X'] + 320 * math.sin((currentBeat + i*0)) + 320, i)
+            setActorY(_G['defaultStrum'..i..'Y'] + 32 * math.cos((currentBeat + i*8) * math.pi),i)
         end
         for i=4,7 do
-            setActorX(_G['defaultStrum'..i..'X'] - 300 * math.sin((currentBeat + i*0)) - 325, i)
-            setActorY(_G['defaultStrum'..i..'Y'] - 8 * math.cos((currentBeat + i*5) * math.pi),i)
+            setActorX(_G['defaultStrum'..i..'X'] - 320 * math.sin((currentBeat + i*0)) - 320, i)
+            setActorY(_G['defaultStrum'..i..'Y'] - 32 * math.cos((currentBeat + i*8) * math.pi),i)
         end
     end
 end
@@ -131,6 +138,9 @@ function stepHit (step)
         if step == 156 then 
             swayIntense = false 
             hideP2CentreP1()
+            for i = 0, 7 do 
+                tweenPosYAngle(i, _G['defaultStrum'..i..'Y'], 0, 0.27, 'setDefault')
+            end
         end
         if step == 160 then 
             swaySlow = true 
@@ -139,13 +149,17 @@ function stepHit (step)
             for i = 4, 7 do  
                 tweenFadeOut(i, 1, 0.27)
             end
+            swaySlow = false
+            spinBackP1()
         end 
         if step == 220 then 
-            swaySlow = false 
             hideP1CentreP2()
         end
         if step == 224 then 
             swaySlow = true 
+            for i = 0, 3 do 
+                tweenPosXAngle(i, _G['defaultStrum'..i..'X'] + 320,getActorAngle(i), 0.1, 'setDefault')
+            end
         end
         if step == 280 then 
             for i = 0, 3 do  
@@ -165,6 +179,9 @@ function stepHit (step)
         if step == 408 then 
             swayIntense = false 
             swaptonormal()
+            for i = 0, 7 do 
+                tweenPosYAngle(i, _G['defaultStrum'..i..'Y'], 0, 0.27, i)
+            end
         end
         if step == 416 then 
             swayFast = true 
@@ -201,14 +218,14 @@ function stepHit (step)
             end
             swayFast = true
         end
-        if step == 728 or step == 792 then 
+        if step == 724 or step == 788 then 
             swayFast = false 
             swayInP2()
             for i = 0, 3 do 
                 tweenPosXAngle(i, _G['defaultStrum'..i..'X'] - 320,getActorAngle(i), 0.54, 'setDefault')
             end
         end
-        if step == 736 or step == 800 or step == 776 then 
+        if step == 732 or step == 796 or step == 776 then 
             swayFast = true 
         end
         if step == 768 then 
@@ -227,17 +244,17 @@ function stepHit (step)
                 tweenPosXAngle(i, _G['defaultStrum'..i..'X'] - 320,getActorAngle(i) + 360, 0.27, 'setDefault')
             end
         end
-        if step == 832 or step == 904 or step == 864 or step == 928 then 
+        if step == 832 or step == 904 or step == 860 or step == 924 then 
             swayFast = true 
         end
-        if step == 856 or step == 920 then 
+        if step == 852 or step == 916 then 
             swayFast = false 
             swayInP1()
             for i = 4, 7 do 
                 tweenPosXAngle(i, _G['defaultStrum'..i..'X'] + 320,getActorAngle(i), 0.54, 'setDefault')
             end
         end
-        if step == 736 or step == 800 or step == 776 then 
+        if step == 736 or step == 796 or step == 872 then 
             swayFast = true 
         end
         if step == 896 then 
@@ -269,27 +286,25 @@ function stepHit (step)
         if step == 1152 then 
             swayIntense = false 
             swayLunatic = true 
-            for i = 0, 3 do  
-                tweenFadeIn(i, 0.7, 0.001)
-            end
         end
         if step == 1212 then 
             swayLunatic = false 
-            for i = 0, 3 do  
-                tweenFadeOut(i, 1, 0.001)
-            end
             hideP2CentreP1()
+            for i = 0, 3 do 
+                tweenPosYAngle(i, _G['defaultStrum'..i..'Y'], 0, 0.27, 'setDefault')
+            end
         end
         if step == 1216 then 
             swayFast = true 
         end
-        if step == 1276 then 
+        if step == 1272 then 
             spinBackP1()
             for i = 4, 7 do  
                 tweenFadeOut(i, 1, 0.27)
             end
+            swayFast = false
         end
-        if step == 1280 then 
+        if step == 1276 then 
             swayFast = true 
         end
         if step == 1344 then 
@@ -301,6 +316,12 @@ function stepHit (step)
                 tweenFadeIn(i, 0, 4.32)
             end
             swaySlow = false 
+        end
+        if step == 1604 then 
+            for i = 0, 7 do 
+                tweenPosXAngle(i, _G['defaultStrum'..i..'X'], 0, getActorAngle(i) + 0, 0.54, 'setDefault')
+                tweenPosYAngle(i, _G['defaultStrum'..i..'Y'], 0, 0.54, i)
+            end
         end
         if step == 1680 then 
             for i = 0, 3 do 
@@ -314,64 +335,80 @@ function stepHit (step)
             for i = 0, 7 do  
                 tweenFadeOut(i, 1, 0.001)
             end
-            swayIntense = true 
+            swayIntense2 = true 
         end
-        if step == 1800 or step == 1864 then 
-            swayIntense = false 
+        if step == 1796 or step == 1860 then 
+            swayIntense2 = false 
             for i = 0, 3 do 
                 tweenPosXAngle(i, _G['defaultStrum'..i..'X'] + 320,getActorAngle(i), 0.54, 'setDefault')
+                tweenPosYAngle(i, _G['defaultStrum'..i..'Y'], getActorAngle(i) + 0, 0.27, i)
             end
             for i = 4, 7 do 
                 tweenPosXAngle(i, _G['defaultStrum'..i..'X'] + 640,getActorAngle(i), 0.54, 'setDefault')
+                tweenPosYAngle(i, _G['defaultStrum'..i..'Y'], getActorAngle(i) + 0, 0.27, i)
             end
         end
-        if step == 1808 or step == 1848 or step == 1872 then 
-            swayIntense = true 
+        if step == 1804 or step == 1848 or step == 1868 then 
+            swayIntense2 = true 
         end
         if step == 1840 then 
-            swayIntense = false 
+            swayIntense2 = false 
             for i = 0, 3 do 
                 tweenPosXAngle(i, _G['defaultStrum'..i..'X'] - 320,getActorAngle(i), 0.54, 'setDefault')
+                tweenPosYAngle(i, _G['defaultStrum'..i..'Y'], getActorAngle(i) + 0, 0.27, i)
             end
             for i = 4, 7 do 
                 tweenPosXAngle(i, _G['defaultStrum'..i..'X'] - 640,getActorAngle(i), 0.54, 'setDefault')
+                tweenPosYAngle(i, _G['defaultStrum'..i..'Y'], getActorAngle(i) + 0, 0.27, i)
             end
         end
         if step == 1900 then 
-            swayIntense = false
+            swayIntense2 = false
             for i = 4, 7 do 
-                tweenPosXAngle(i, _G['defaultStrum'..i..'X'] + 320,getActorAngle(i), 0.27, 'setDefault')
+                tweenPosXAngle(i, _G['defaultStrum'..i..'X'] + 320,getActorAngle(i) + 360, 0.27, 'setDefault')
+                tweenPosYAngle(i, _G['defaultStrum'..i..'Y'], getActorAngle(i) + 0, 0.27, i)
             end
             for i = 0, 3 do 
-                tweenPosXAngle(i, _G['defaultStrum'..i..'X'] + 640,getActorAngle(i), 0.54, 'setDefault')
+                tweenPosXAngle(i, _G['defaultStrum'..i..'X'] + 640,getActorAngle(i) + 360, 0.27, 'setDefault')
+                tweenPosYAngle(i, _G['defaultStrum'..i..'Y'], getActorAngle(i) + 0, 0.27, i)
             end
         end
-        if step == 1904 or step == 1936 or step == 1976 or step == 2000 then 
-            swayIntense = true 
+        if step == 1904 or step == 1932 or step == 1976 or step == 1996 then 
+            swayIntense2 = true 
         end
-        if step == 1928 or step == 1992 then 
-            swayIntense = false 
+        if step == 1924 or step == 1988 then 
+            swayIntense2 = false 
             for i = 0, 3 do 
                 tweenPosXAngle(i, _G['defaultStrum'..i..'X'] - 640,getActorAngle(i), 0.54, 'setDefault')
+                tweenPosYAngle(i, _G['defaultStrum'..i..'Y'], getActorAngle(i) + 0, 0.27, i)
             end
             for i = 4, 7 do 
                 tweenPosXAngle(i, _G['defaultStrum'..i..'X'] - 320,getActorAngle(i), 0.54, 'setDefault')
+                tweenPosYAngle(i, _G['defaultStrum'..i..'Y'], getActorAngle(i) + 0, 0.27, i)
             end
         end
         if step == 1968 then 
-            swayIntense = false 
+            swayIntense2 = false 
             for i = 0, 3 do 
                 tweenPosXAngle(i, _G['defaultStrum'..i..'X'] + 640,getActorAngle(i), 0.54, 'setDefault')
+                tweenPosYAngle(i, _G['defaultStrum'..i..'Y'], getActorAngle(i) + 0, 0.27, i)
             end
             for i = 4, 7 do 
                 tweenPosXAngle(i, _G['defaultStrum'..i..'X'] + 320,getActorAngle(i), 0.54, 'setDefault')
+                tweenPosYAngle(i, _G['defaultStrum'..i..'Y'], getActorAngle(i) + 0, 0.27, i)
             end
         end
         if step == 2032 then 
-            swayIntense = false 
             for i = 0, 7 do  
                 tweenFadeIn(i, 0, 4.32)
             end
+            swayIntense2 = false 
         end
-    end
+        if step == 2036 then 
+            for i = 0, 7 do 
+                tweenPosXAngle(i, _G['defaultStrum'..i..'X'], getActorAngle(i) + 0, 0.54, 'setDefault')
+                tweenPosYAngle(i, _G['defaultStrum'..i..'Y'], getActorAngle(i) + 0, 0.54, i)
+            end
+        end
+    end 
 end

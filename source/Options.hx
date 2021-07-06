@@ -281,62 +281,6 @@ class ShowInput extends Option
 	}
 }
 
-
-class Judgement extends Option
-{
-	
-
-	public function new(desc:String)
-	{
-		super();
-		description = desc;
-		acceptValues = true;
-	}
-	
-	public override function press():Bool
-	{
-		return true;
-	}
-
-	private override function updateDisplay():String
-	{
-		return "Safe Frames";
-	}
-
-	override function left():Bool {
-
-		if (Conductor.safeFrames == 1)
-			return false;
-
-		Conductor.safeFrames -= 1;
-		FlxG.save.data.frames = Conductor.safeFrames;
-
-		Conductor.recalculateTimings();
-		return false;
-	}
-
-	override function getValue():String {
-		return "Safe Frames: " + Conductor.safeFrames +
-		" - SIK: " + HelperFunctions.truncateFloat(45 * Conductor.timeScale, 0) +
-		"ms GD: " + HelperFunctions.truncateFloat(90 * Conductor.timeScale, 0) +
-		"ms BD: " + HelperFunctions.truncateFloat(135 * Conductor.timeScale, 0) + 
-		"ms SHT: " + HelperFunctions.truncateFloat(166 * Conductor.timeScale, 0) +
-		"ms TOTAL: " + HelperFunctions.truncateFloat(Conductor.safeZoneOffset,0) + "ms";
-	}
-
-	override function right():Bool {
-
-		if (Conductor.safeFrames == 20)
-			return false;
-
-		Conductor.safeFrames += 1;
-		FlxG.save.data.frames = Conductor.safeFrames;
-
-		Conductor.recalculateTimings();
-		return true;
-	}
-}
-
 class FPSOption extends Option
 {
 	public function new(desc:String)

@@ -106,11 +106,11 @@ function stepHit (step)
             for i = 4, 7 do  
                 tweenFadeOut(i, 1, 0.3)
             end
+            spinBackP1()
+            sway = false 
         end
         if step == 252 then 
-            sway = false 
             hideP1CentreP2()
-            spinBackP1()
         end
         if step == 256 then 
             sway = true 

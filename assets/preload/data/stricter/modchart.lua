@@ -90,7 +90,10 @@ function stepHit (step)
             funSway = false 
             for i = 0, 7 do 
                 tweenFadeIn(i, 0.1, 0.85)
+                tweenPosXAngle(i, _G['defaultStrum'..i..'X'], 0, 0.6, 'setDefault')
+                tweenPosYAngle(i, _G['defaultStrum'..i..'Y'], 0, 0.6, 'setDefault')
             end 
+
         end 
         if step == 584 then 
             for i = 0, 7 do 

@@ -42,7 +42,7 @@ end
 function centreBoth()
     for i = 0, 3 do 
         tweenPosXAngle(i, _G['defaultStrum'..i..'X'] + 320,getActorAngle(i) + 360, 0.35, 'setDefault')
-        tweenFadeIn(i, 0.4, 0.35)
+        tweenFadeIn(i, 0.3, 0.35)
     end 
     for i = 4, 7 do 
         tweenPosXAngle(i, _G['defaultStrum'..i..'X'] - 320,getActorAngle(i) + 360, 0.35, 'setDefault')
@@ -118,11 +118,11 @@ local currentBeat2 = (songPos / 1000)*(bpm/120)
     end
     if centreWave then 
         for i = 0, 3 do 
-            setActorX(_G['defaultStrum'..i..'X'] + 16 * math.sin((currentBeat + i*0)) * math.pi, i)
+            setActorX(_G['defaultStrum'..i..'X'] + 32 * math.sin((currentBeat + i*0)) * math.pi, i)
             setActorY(_G['defaultStrum'..i..'Y'] + 8 * math.cos((currentBeat + i*8)) * math.pi, i)
         end 
         for i = 4, 7 do 
-            setActorX(_G['defaultStrum'..i..'X'] - 16 * math.sin((currentBeat + i*0)) * math.pi, i)
+            setActorX(_G['defaultStrum'..i..'X'] - 32 * math.sin((currentBeat + i*0)) * math.pi, i)
             setActorY(_G['defaultStrum'..i..'Y'] - 8 * math.cos((currentBeat + i*8)) * math.pi, i)
         end 
     end
@@ -148,11 +148,11 @@ function stepHit (step)
             for i = 4, 7 do  
                 tweenFadeOut(i, 1, 0.35)
             end
+            spinBackP1()
+            swayWave = false
         end
         if step == 220 then 
-            swayWave = false
             hideP1CentreP2()
-            spinBackP1()
         end
         if step == 224 then 
             swayWave = true
@@ -188,8 +188,14 @@ function stepHit (step)
         if step == 416 then 
             centreSway = true
         end
-        if step == 544 then 
+        if step == 536 then 
             centreSway = false 
+            for i = 0, 7 do 
+                tweenPosXAngle(i, _G['defaultStrum'..i..'X'], getActorAngle(i), 0.6, 'setDefault')
+                tweenPosYAngle(i, _G['defaultStrum'..i..'Y'], 0.6, 'setDefault')
+            end
+        end
+        if step == 544 then 
             centreWave = true 
         end
         if step == 668 then 

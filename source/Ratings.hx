@@ -8,7 +8,7 @@ class Ratings
 		if(FlxG.save.data.botplay && !PlayState.loadRep)
 			ranking = "BotPlay";
 
-        if (PlayState.misses == 0 && PlayState.bads == 0 && PlayState.shits == 0 && PlayState.goods == 0 && Playstate.sicks == 0) // Lunatic (LUNATIC) Full Combo
+        if (PlayState.misses == 0 && PlayState.bads == 0 && PlayState.shits == 0 && PlayState.goods == 0 && PlayState.sicks == 0) // Lunatic (LUNATIC) Full Combo
             ranking = "(LFC)";
         else if (PlayState.misses == 0 && PlayState.bads == 0 && PlayState.shits == 0 && PlayState.goods == 0) // Marvelous (SICK) Full Combo
             ranking = "(MFC)";
@@ -126,15 +126,15 @@ class Ratings
             rating = "shit";
         if (ms < 120 * ts && ms >= 80 * ts) 
             rating = "bad";
-        if (ms < 80 * ts && ms >= 40 * ts)
+        if (ms < 80 * ts && ms >= 45 * ts)
             rating = "good";
-        if (ms < 40 * ts && ms >= 10 * ts)
+        if (ms < 45 * ts && ms >= 15 * ts)
             rating = "sick";
-        if (ms < 10 * ts && ms >= -10 * ts)
+        if (ms < 15 * ts && ms >= -15 * ts)
             rating = "lunatic";
-        if (ms > -40 * ts && ms <= -10 * ts)
+        if (ms > -45 * ts && ms <= -15 * ts)
             rating = "sick";
-        if (ms > -80 * ts && ms <= -40 * ts)
+        if (ms > -80 * ts && ms <= -45 * ts)
             rating = "good";
         if (ms > -120 * ts && ms <= -80 * ts)
             rating = "bad";

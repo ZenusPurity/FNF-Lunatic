@@ -30,7 +30,7 @@ class StoryMenuState extends MusicBeatState
 		['Electro', 'Weaponeer', 'Gun Fight'],
 		['Drive', 'Fly', 'Die']
 	];
-	var curDifficulty:Int = 0;
+	var curDifficulty:Int = 2;
 
 	public static var weekUnlocked:Array<Bool> = [true, true, true, true];
 
@@ -320,7 +320,7 @@ class StoryMenuState extends MusicBeatState
 			}
 
 			var poop:String = Highscore.formatSong(songFormat, curDifficulty);
-			Playstate.lunatics = 0;
+			PlayState.lunatics = 0;
 			PlayState.sicks = 0;
 			PlayState.bads = 0;
 			PlayState.shits = 0;

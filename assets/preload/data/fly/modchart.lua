@@ -71,15 +71,15 @@ function update (elapsed)
 local currentBeat = (songPos / 1000)*(bpm/60)
     if swayWave then 
         for i = 0, 7 do 
-            setActorX(_G['defaultStrum'..i..'X'] + 16 * math.sin((currentBeat + i*0)) * math.pi, i)
-            setActorY(_G['defaultStrum'..i..'Y'] + 8 * math.cos((currentBeat + i*8)) * math.pi, i)
+            setActorX(_G['defaultStrum'..i..'X'] + 16 * math.sin((currentBeat + i*0)), i)
+            setActorY(_G['defaultStrum'..i..'Y'] + 8 * math.cos((currentBeat + i*8)), i)
         end
     end
     if swayWavier then 
-        for i = 0, 7 do 
-            setActorX(_G['defaultStrum'..i..'X'] + 32 * math.sin((currentBeat + i*0)) * math.pi, i)
-            setActorY(_G['defaultStrum'..i..'Y'] + 8 * math.cos((currentBeat + i*16)) * math.pi, i)
-        end
+		for i=0,7 do
+			setActorX(_G['defaultStrum'..i..'X'] + 64 * math.sin((currentBeat + i*0) * math.pi), i)
+			setActorY(_G['defaultStrum'..i..'Y'] + 32 * math.cos((currentBeat + i*4) * math.pi) ,i)
+		end
     end
     if sway then 
         for i = 0, 7 do 
@@ -122,10 +122,10 @@ function stepHit (step)
             for i = 4, 7 do 
                 tweenFadeOut(i, 1, 0.36)
             end
-        end
-        if step == 92 then 
             sway = false 
             spinBackP1()
+        end
+        if step == 92 then 
             hideP1CentreP2()
         end
         if step == 96 then 
@@ -135,16 +135,16 @@ function stepHit (step)
             for i = 0, 3 do 
                 tweenFadeOut(i, 1, 0.36)
             end
-        end
-        if step == 156 then 
             sway = false 
             spinBackP2()
+        end
+        if step == 156 then 
             hideP2CentreP1()
         end
         if step == 160 then 
             swayLarger = true 
         end
-        if step == 204 then 
+        if step == 200 then 
             swayLarger = false 
             spinBackP1()
             for i = 4, 7 do 
@@ -152,7 +152,7 @@ function stepHit (step)
                 tweenPosXAngle(i, _G['defaultStrum'..i..'X'],getActorAngle(i) + 360, 0.36, 'setDefault')
             end
         end
-        if step == 208 then 
+        if step == 204 then 
             swayLarger = true 
         end
         if step == 220 then 
@@ -192,21 +192,21 @@ function stepHit (step)
         if step == 544 then 
             swayWave = true 
         end
-        if step == 604 then 
+        if step == 600 then 
             swayWave = false 
             spinBackP1()
             for i = 4, 7 do 
                 tweenFadeOut(i, 1, 0.36)
             end
         end
-        if step == 608 then 
+        if step == 604 then 
             swayWave = true 
         end
         if step == 672 then 
             swayWave = false 
             swayLarger = true 
         end
-        if step == 704 or step == 768 or step == 832 or step == 848 or step == 896 then 
+        if step == 704 or step == 768 or step == 832 or step == 848 or step == 896 or step == 912 then 
             swayLarger = false 
             swayWavier = true 
         end
@@ -224,6 +224,10 @@ function stepHit (step)
         end
         if step == 864 then 
             swayLarger = true 
+            for i = 0, 7 do 
+                tweenPosXAngle(i, _G['defaultStrum'..i..'X'], getActorAngle(i), 0.36, 'setDefault')
+                tweenPosYAngle(i, _G['defaultStrum'..i..'Y'], getActorAngle(i), 0.36, 'setDefault')
+            end
         end
     end 
 end
