@@ -83,7 +83,7 @@ class PlayState extends MusicBeatState
 	public static var isStoryMode:Bool = false;
 	public static var storyWeek:Int = 0;
 	public static var storyPlaylist:Array<String> = [];
-	public static var storyDifficulty:Int = 1;
+	public static var storyDifficulty:Int = 2;
 	public static var weekSong:Int = 0;
 	public static var weekScore:Int = 0;
 	public static var shits:Int = 0;
@@ -275,7 +275,11 @@ class PlayState extends MusicBeatState
 		removedVideo = false;
 
 		#if windows
-		executeModchart = FileSystem.exists(Paths.lua(songLowercase  + "/modchart"));
+		switch (storyDifficulty)
+		{
+			case 2:
+				executeModchart = FileSystem.exists(Paths.lua(songLowercase  + "/modchart"));
+		}
 		if (executeModchart)
 			PlayStateChangeables.Optimize = false;
 		#end

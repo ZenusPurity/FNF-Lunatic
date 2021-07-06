@@ -118,13 +118,17 @@ function stepHit (step)
             for i = 4, 7 do 
                 tweenFadeOut(i, 1, 0.4)
             end 
+            swayLarger = false 
+            spinBackP1()       
         end
         if step == 252 then 
-            swayLarger = false 
             hideP1CentreP2()
         end
         if step == 256 then 
             swayLarger = true 
+            for i = 0, 3 do 
+                tweenPosXAngle(i, _G['defaultStrum'..i..'X'] + 320,getActorAngle(i), 0.1, 'setDefault')
+            end
         end
         if step == 284 then 
             swayLarger = false 
