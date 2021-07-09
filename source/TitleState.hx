@@ -67,16 +67,6 @@ class TitleState extends MusicBeatState
 			trace("Loaded " + openfl.Assets.getLibrary("default").assetsLoaded + " assets (DEFAULT)");
 		}
 		
-		PlayerSettings.init();
-
-		#if windows
-		DiscordClient.initialize();
-
-		Application.current.onExit.add (function (exitCode) {
-			DiscordClient.shutdown();
-		 });
-		 
-		#end
 
 		curWacky = FlxG.random.getObject(getIntroTextShit());
 
@@ -91,35 +81,19 @@ class TitleState extends MusicBeatState
 		trace('NEWGROUNDS LOL');
 		#end
 
-		FlxG.save.bind('funkin', 'ninjamuffin99');
-
-		KadeEngineData.initSave();
-
-		Highscore.load();
-
-		if (FlxG.save.data.weekUnlocked != null)
-		{
-			// FIX LATER!!!
-			// WEEK UNLOCK PROGRESSION!!
-			// StoryMenuState.weekUnlocked = FlxG.save.data.weekUnlocked;
-
-			if (StoryMenuState.weekUnlocked.length < 4)
-				StoryMenuState.weekUnlocked.insert(0, true);
-
-			// QUICK PATCH OOPS!
-			if (!StoryMenuState.weekUnlocked[0])
-				StoryMenuState.weekUnlocked[0] = true;
-		}
-
 		#if FREEPLAY
 		FlxG.switchState(new FreeplayState());
 		#elseif CHARTING
 		FlxG.switchState(new ChartingState());
 		#else
+		#if !cpp
 		new FlxTimer().start(1, function(tmr:FlxTimer)
 		{
 			startIntro();
 		});
+		#else
+		startIntro();
+		#end
 		#end
 	}
 
@@ -144,7 +118,8 @@ class TitleState extends MusicBeatState
 
 			FlxTransitionableState.defaultTransIn = new TransitionData(FADE, FlxColor.BLACK, 1, new FlxPoint(0, -1), {asset: diamond, width: 32, height: 32},
 				new FlxRect(-200, -200, FlxG.width * 1.4, FlxG.height * 1.4));
-			FlxTransitionableState.defaultTransOut = new TransitionData(NONE, FlxColor.TRANSPARENT, 3, new FlxPoint(0, -1));
+				FlxTransitionableState.defaultTransOut = new TransitionData(FADE, FlxColor.BLACK, 0.7, new FlxPoint(0, 1),
+				{asset: diamond, width: 32, height: 32}, new FlxRect(-200, -200, FlxG.width * 1.4, FlxG.height * 1.4));
 
 			transIn = FlxTransitionableState.defaultTransIn;
 			transOut = FlxTransitionableState.defaultTransOut;
@@ -176,7 +151,7 @@ class TitleState extends MusicBeatState
 		bgTitle.updateHitbox();
 		add (bgTitle);
 
-		dadDance = new FlxSprite(300, 300);
+		dadDance = new FlxSprite(-700, 300);
 		dadDance.frames = Paths.getSparrowAtlas('dadDance');
 		dadDance.scale.set(0.55, 0.55);
 		dadDance.antialiasing = true;
@@ -184,7 +159,7 @@ class TitleState extends MusicBeatState
 		dadDance.animation.play('dadIdle');
 		dadDance.updateHitbox();
 
-		momDance = new FlxSprite(680, 295);
+		momDance = new FlxSprite(1680, 295);
 		momDance.frames = Paths.getSparrowAtlas('momDance');
 		momDance.scale.set(0.55, 0.55);
 		momDance.flipX = true;
@@ -193,7 +168,7 @@ class TitleState extends MusicBeatState
 		momDance.animation.play('momIdle');
 		momDance.updateHitbox();
 
-		picoDance = new FlxSprite(790, 490);
+		picoDance = new FlxSprite(1790, 490);
 		picoDance.frames = Paths.getSparrowAtlas('picoDance');
 		picoDance.scale.set(0.55, 0.55);
 		picoDance.antialiasing = true;
@@ -201,7 +176,7 @@ class TitleState extends MusicBeatState
 		picoDance.animation.play('picoIdle');
 		picoDance.updateHitbox();
 
-		spookyDance = new FlxSprite(160, 430);
+		spookyDance = new FlxSprite(-840, 430);
 		spookyDance.frames = Paths.getSparrowAtlas('spookyDance');
 		spookyDance.scale.set(0.55, 0.55);
 		spookyDance.antialiasing = true;
@@ -216,11 +191,11 @@ class TitleState extends MusicBeatState
 		gfDance.animation.addByIndices('danceRight', 'GF Dancing Beat', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 		gfDance.antialiasing = true;
 		
-		logoBl = new FlxSprite(275, -90);
+		logoBl = new FlxSprite(275, -1090);
 		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
 		logoBl.scale.set(0.75, 0.75);
 		logoBl.antialiasing = true;
-		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24);
+		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, false);
 		logoBl.animation.play('bump');
 		logoBl.updateHitbox();
 
@@ -285,7 +260,7 @@ class TitleState extends MusicBeatState
 
 	function getIntroTextShit():Array<Array<String>>
 	{
-		var fullText:String = Assets.getText(Paths.txt('introText'));
+		var fullText:String = Assets.getText(Paths.txt('data/introText'));
 
 		var firstArray:Array<String> = fullText.split('\n');
 		var swagGoodArray:Array<Array<String>> = [];
@@ -421,11 +396,11 @@ class TitleState extends MusicBeatState
 	{
 		super.beatHit();
 
-		logoBl.animation.play('bump');
-		dadDance.animation.play('dadIdle');
-		spookyDance.animation.play('spookyIdle');
-		picoDance.animation.play('picoIdle');
-		momDance.animation.play('momDance');
+		logoBl.animation.play('bump', true);
+		dadDance.animation.play('dadIdle', true);
+		spookyDance.animation.play('spookyIdle', true);
+		picoDance.animation.play('picoIdle', true);
+		momDance.animation.play('momDance', true);
 		danceLeft = !danceLeft;
 
 		if (danceLeft)
@@ -499,11 +474,23 @@ class TitleState extends MusicBeatState
 
 			FlxG.camera.flash(FlxColor.WHITE, 4);
 			remove(credGroup);
+			FlxTween.tween(logoBl,{y: -90}, 1.4, {ease: FlxEase.expoInOut});
+			FlxTween.tween(dadDance,{x: 300}, 1.4, {ease: FlxEase.expoInOut});
+			FlxTween.tween(momDance,{x: 680}, 1.4, {ease: FlxEase.expoInOut});
+			FlxTween.tween(spookyDance,{x: 160}, 1.4, {ease: FlxEase.expoInOut});
+			FlxTween.tween(picoDance,{x: 790}, 1.4, {ease: FlxEase.expoInOut});
+
+			logoBl.angle = -4;
+
+			new FlxTimer().start(0.01, function(tmr:FlxTimer)
+				{
+					if(logoBl.angle == -4) 
+						FlxTween.angle(logoBl, logoBl.angle, 4, 4, {ease: FlxEase.quartInOut});
+					if (logoBl.angle == 4) 
+						FlxTween.angle(logoBl, logoBl.angle, -4, 4, {ease: FlxEase.quartInOut});
+				}, 0);
+
 			skippedIntro = true;
-
-			FlxTransitionableState.defaultTransOut = new TransitionData(NONE, FlxColor.TRANSPARENT, 3, new FlxPoint(0, -1));
-
-			transOut = FlxTransitionableState.defaultTransOut;
 		}
 	}
 }
